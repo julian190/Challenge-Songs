@@ -175,27 +175,55 @@ namespace ConsoleApp
 
         public bool IsInRepeatingPlaylist()
         {
-            var checkedsongs = new HashSet<Song>();
+            var checkedsongs = new HashSet<Song>();  //this list will work with solution 1
             var currentsong = this;
-            var nextsong= currentsong.NextSong;
+            var nextsong = currentsong.NextSong;
+            var afternextsong =nextsong.NextSong; // this variable for solution 2 only 
+            // solution 1
+            //var checkedsongs = new HashSet<Song>();
+            //while (nextsong != null)
+            //{
+            //    if (currentsong.Equals(nextsong)){
+            //        return true;
+            //    }
+            //    else
+            //    {
+            //        if (checkedsongs.Contains(nextsong))
+            //        {
+            //            return false;
+            //        }
+            //        checkedsongs.Add(nextsong);
+            //        nextsong = nextsong.NextSong;
+
+            //    }
+            //}
+            //return false;
+
+
+            // solution 2
 
             while (nextsong != null)
             {
-                if (currentsong.Equals(nextsong)){
+                if (nextsong == currentsong)
+                {
                     return true;
                 }
                 else
                 {
-                    if (checkedsongs.Contains(nextsong))
+                    if (nextsong.NextSong != null)
                     {
-                        return false;
+                        nextsong = nextsong.NextSong;
+                        // check if there is infinty loop
+                        afternextsong = nextsong.NextSong != null ? nextsong.NextSong : nextsong; // get after next song
+                        if (nextsong == afternextsong.NextSong){break; } //if there is infinty loop then break
                     }
-                    checkedsongs.Add(nextsong);
-                    nextsong = nextsong.NextSong;
+                    else { break; }
 
                 }
+                
             }
             return false;
+
         }
     }
 }
